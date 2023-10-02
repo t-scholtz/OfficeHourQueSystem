@@ -7,6 +7,10 @@ from sqlalchemy.sql import func
 # I personally blame Paul
 # Maybe make a database which stores all of the names of all fo the class's and reference a que to that class
 
+# Structure 
+# each course has a que of students, and a wait time of students with the time the entered and left the Que
+# A user is an indepent table consisting of users who are either studetns or intructors
+
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     courseName = db.Column(db.String(150), unique=True)

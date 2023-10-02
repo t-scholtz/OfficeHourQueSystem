@@ -7,8 +7,13 @@ from . import db   ##means from __init__.py import db
 
 auth = Blueprint('auth',__name__)
 
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template("login.html")
+
 @auth.route('/student-login', methods=['GET', 'POST'])
 def student_login():
+    print("is this better")
     return render_template("student_login.html")
 
 @auth.route('/instructor-login', methods=['GET', 'POST'])
@@ -27,7 +32,8 @@ def intstructor_login():
         #         flash('Incorrect password, try again.', category='error')
         # else:
         #     flash('Email does not exist.', category='error')
-    return render_template("instructor_login.html",user=current_user)
+    # return render_template("instructor_login.html",user=current_user)
+    return render_template("instructor_login.html")
 
 
 @auth.route('/logout')
@@ -36,6 +42,11 @@ def logout():
     return "<h1>hello<h1>"
     # logout_user()
     # return redirect(url_for('auth.login'))
+
+@auth.route('/sign-up', methods=['GET', 'POST'])
+def sign_up():
+    return render_template("sign_up.html")
+
 
 @auth.route('/student-sign-up', methods=['GET', 'POST'])
 def student_sign_up():
