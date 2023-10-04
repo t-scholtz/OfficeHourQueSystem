@@ -86,3 +86,8 @@ def intsructor_sign_up():
             return redirect(url_for('views.home'))
         
     return render_template("instructor_sign_up.html", user=current_user)
+
+
+
+
+

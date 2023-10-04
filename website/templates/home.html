@@ -1,5 +1,9 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-  %}
-  <h1 align="center">Office Hour Que Times</h1>
-  
-  {% endblock %}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1 class="text-center">CSE Wait Times</h1>
+  <div class="text-center">
+    <p class="h4 mb-3"><strong>Wait time for CSE 115:</strong> {{ waitTime1 }} minutes</p>
+    <p class="h4"><strong>Queue size:</strong> {{ queSize1 }}</p>
+  </div>
+{% endblock %}

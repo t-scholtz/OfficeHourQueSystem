@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1 align="center">Wait Times for {{ course.courseName }}</h1>
+  <h2 align="center">The average wait time is: {{ waitTime}} minutes</h2>
+  <div align="center">
+    {% if user_in_queue  %}
+    <button type="button" id="exit" class="btn btn-danger btn-lg btn-block" onClick="exitQue('{{ user.ubit }}', '{{ course.id }}')">Leave Queue</button>
+    {% else %}
+    <button type="button" id="enter" class="btn  btn-success btn-lg btn-block"  onClick="joinQue('{{ user.ubit }}', '{{ course.id }}')">Join Queue</button>
+    {% endif %}
+    {% if user.type == "instructor" %}
+    <button type="button" id="pop" class="btn btn-primary btn-lg btn-block"  onClick="popQue('{{ course.id }}')">Pop Que</button>
+    {% endif %} 
+  </div>
+  <ul class="list-group list-group-flush" id="que">
+    {% for person in course.que %}
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-md-6">
+          {{ person.ubit }}
+        </div>
+        <div class="col-md-4">
+          {{ person.time }}
+        </div>
+        <div class="col-md-2">
+          {% if user.type == "instructor" %}
+          <button type="button" class="close" onClick="removeName('{{ person.id }}')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

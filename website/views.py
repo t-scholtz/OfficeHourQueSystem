@@ -1,21 +1,17 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from . import db  
 from flask_login import login_required,  current_user
+from .models import Que, Course
 
 views = Blueprint('views',__name__)
 
 @views.route('/', methods=['GET', 'POST'])
 # @login_required
 def home():
-    # if request.method == 'POST': 
-    #     note = request.form.get('note')#Gets the note from the HTML 
+    course = Course.query.filter_by(id=2).first()
+    waitTime1 = 10
+    queSize1 = Que.query.filter_by(course_id=1).count()
+    
+    return render_template("home.html", user=current_user, waitTime1 = waitTime1, queSize1 = queSize1)
 
-    #     if len(note) < 1:
-    #         flash('Note is too short!', category='error') 
-    #     else:
-    #         new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
-    #         db.session.add(new_note) #adding the note to the database 
-    #         db.session.commit()
-    #         flash('Note added!', category='success')
 
-    return render_template("home.html", user=current_user)

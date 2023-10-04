@@ -15,9 +15,11 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from .ques import ques
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(ques, url_prefix='/')
 
     from .models import Course, Que, WaitTime, User
     
