@@ -3,14 +3,18 @@
 {% block content %}
   <h1 align="center">Wait Times for {{ course.courseName }}</h1>
   <h2 align="center">The average wait time is: {{ waitTime}} minutes</h2>
+  <h2 align="center">Queue lenght is: {{ queLength}}</h2>
   <div align="center">
-    {% if user_in_queue  %}
-    <button type="button" id="exit" class="btn btn-danger btn-lg btn-block" onClick="exitQue('{{ user.ubit }}', '{{ course.id }}')">Leave Queue</button>
-    {% else %}
-    <button type="button" id="enter" class="btn  btn-success btn-lg btn-block"  onClick="joinQue('{{ user.ubit }}', '{{ course.id }}')">Join Queue</button>
-    {% endif %}
     {% if user.type == "instructor" %}
-    <button type="button" id="pop" class="btn btn-primary btn-lg btn-block"  onClick="popQue('{{ course.id }}')">Pop Que</button>
+    <form method="POST">
+        <input type="text" id="cardInfo" name="cardInfo" class="form-control" placeholder="Swipe Card" onkeydown="if(event.keyCode == 13) this.form.submit();">
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName">
+        <label for="personNo">Person Number:</label>
+        <input type="text" id="personNo" name="personNo">
+        <button type="submit">Submit</button>
+    </form>
     {% endif %} 
   </div>
   <ul class="list-group list-group-flush" id="que">

@@ -30,10 +30,10 @@
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           <a class="nav-item nav-link" id="home" href="/">Home</a>
-          {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="cse115" href="/cse-115">CSE 115</a>
           <a class="nav-item nav-link" id="cse116" href="/cse-116">CSE 116</a>
           <a class="nav-item nav-link" id="cse220" href="/cse-220">CSE 220</a>
+          {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
           <a class="nav-item nav-link" id="studentLogin" href="/login"> Login</a>
