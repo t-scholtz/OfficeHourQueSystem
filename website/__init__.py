@@ -4,20 +4,21 @@ from os import path
 from flask_login import LoginManager
 from flask_mail import Mail, Message 
 from .myemail import send_email,set_mail
+import csv
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+csv_file = "student_data.csv"
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'cse116'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Configure your email server
+    app.config['MAIL_SERVER'] = 'smtp.googlemail.com'  # Configure your email server
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = '@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'pwd'
-    app.config['MAIL_DEFAULT_SENDER'] = '@gmail.com'
+    app.config['MAIL_USERNAME'] = 'tim.j.scholtz@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'xqdcmgciacghvyuj'
     app.config['MAIL_DEBUG'] = True
 
     db.init_app(app)
@@ -32,7 +33,6 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(ques, url_prefix='/')
 
-    
     with app.app_context():
         create_database(app)
 
@@ -47,7 +47,6 @@ def create_app():
     return app
 
 def create_database(app):
-    print("here")
     if not path.exists('instance/' + DB_NAME):
         from .models import Course, Que, WaitTime, User, Students
         db.create_all()
@@ -59,8 +58,16 @@ def create_database(app):
         db.session.add(course3)
         db.session.commit()
         print('Created Database!')
-        #TODO - get a list of students UBIT + First name + Last name + ubid
-        print("TODO")
+        with open(csv_file, 'r') as csvfile:
+            csv_reader = csv.DictReader(csvfile)
+            for row in csv_reader:
+                ubit = row['ubit']
+                firstName = row['first_name']
+                lastName = row['last_name']
+                ubid = row['ubid']
+                new_row = Students(ubit=ubit, firstName=firstName, lastName=lastName, ubid=ubid)
+                db.session.add(new_row)
+                db.session.commit()
         print('Added Students info')
 
         #FOR TESTING PRUPOSES - DELETE LATER
@@ -72,13 +79,14 @@ def create_database(app):
         db.session.add(student3)
 
         que1 = Que(ubit = "bx" , course_id = 1)
-        que2 = Que(ubit = "by" , course_id = 1)
+        que2 = Que(ubit = "by" , course_id = 2)
         que3 = Que(ubit = "bz" , course_id = 2)
         db.session.add(que1)
         db.session.add(que2)
         db.session.add(que3)
         db.session.commit()
-        #TODO - set up email handiling
+
+     #TODO - set up email handiling
         send_email('tjscholt@buffalo.edu','testing testing 1 2','TEST - DO NOT REPLY')
-        print('sent Test email')
+        print('Test email sent')
         

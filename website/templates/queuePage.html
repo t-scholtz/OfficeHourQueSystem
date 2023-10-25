@@ -5,31 +5,38 @@
   <h2 align="center">The average wait time is: {{ waitTime}} minutes</h2>
   <h2 align="center">Queue lenght is: {{ queLength}}</h2>
   <div align="center">
-    {% if user.type == "instructor" %}
-    <form method="POST">
-        <input type="text" id="cardInfo" name="cardInfo" class="form-control" placeholder="Swipe Card" onkeydown="if(event.keyCode == 13) this.form.submit();">
-
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName">
-        <label for="personNo">Person Number:</label>
-        <input type="text" id="personNo" name="personNo">
-        <button type="submit">Submit</button>
-    </form>
+    {% if user.is_authenticated %}
+    <div class="container mt-4">
+      <div class="card card-form">
+          <form method="POST">
+              <div class="form-group">
+                  <label for="cardInfo">Swipe Card</label>
+                  <input type="password" id="cardInfo" name="cardInfo" class="form-control" autofocus  onkeydown="if(event.keyCode == 13) this.form.submit();">
+              </div>
+              <p>Or</p>
+              <div class="form-group">
+                  <label for="ubit">Enter Ubit</label>
+                  <input type="text" id="ubit" name="ubit" class="form-control" placeholder="Enter UBIT">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+  </div>
     {% endif %} 
   </div>
   <ul class="list-group list-group-flush" id="que">
-    {% for person in course.que %}
+    {% for que, student in students_in_queue %}
     <li class="list-group-item">
       <div class="row">
         <div class="col-md-6">
-          {{ person.ubit }}
+          {{ student.firstName }} {{ student.lastName }} ({{ student.ubit }})
         </div>
         <div class="col-md-4">
-          {{ person.time }}
+          {{ que.time }}
         </div>
         <div class="col-md-2">
-          {% if user.type == "instructor" %}
-          <button type="button" class="close" onClick="removeName('{{ person.id }}')">
+          {% if user.is_authenticated %}
+          <button type="button" class="close" onClick="removeName('{{ que.id }}')">
             <span aria-hidden="true">&times;</span>
           </button>
           {% endif %}
@@ -38,4 +45,5 @@
     </li>
     {% endfor %}
   </ul>
+  
 {% endblock %}

@@ -12,8 +12,11 @@ CODEWORD = 'bossman'
 def login():
     if request.method == 'POST':
         ubit = request.form.get('ubit')
+        print("printing data")
+        print(ubit)
         password = request.form.get('password')
         user = User.query.filter_by(ubit=ubit).first()
+        print(User.query.all())
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
@@ -59,4 +62,4 @@ def sign_up():
 
             return redirect(url_for('views.home'))
         
-    return render_template("instructor_sign_up.html", user=current_user)
+    return render_template("sign_up.html", user=current_user)

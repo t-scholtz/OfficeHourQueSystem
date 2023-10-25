@@ -9,7 +9,7 @@ def set_mail(mail_in):
 def send_email(recipient, subject, message_body):
     if mail is None:
         raise ValueError("Mail instance is not set. Call set_mail() before sending emails.")
-    
-    msg = Message(subject=subject, recipients=[recipient])
+    sender="noreply@app.com"
+    msg = Message(subject=subject,sender=sender, recipients=[recipient])
     msg.body = message_body
     mail.send(msg)
